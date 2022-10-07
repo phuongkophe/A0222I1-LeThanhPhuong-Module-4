@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>
+    <a th:href="@{/product}">Back to products list</a>
+</p>
+<div id="form">
+    <form th:action="@{/product/delete}" th:object="${product}" method="post" novalidate="novalidate">
+        <!--        <input type="hidden" th:text="*{id}" readonly/>-->
+        <span style="display: none" th:text="*{id}"></span>
+        <div>
+            <label style="font-weight: bold">Name: </label>
+            <span type="text" th:text="*{productName}"></span>
+        </div>
+        <div>
+            <label style="font-weight: bold">Price: </label>
+            <span type="text" th:text="*{#numbers.formatDecimal(productPrice,0,'POINT',2,'POINT')}"></span>
+
+        </div>
+        <div>
+            <label style="font-weight: bold">Quantity: </label>
+            <span type="text" th:text="*{productQuantity}"></span>
+        </div>
+        <input type="submit" value="Delete"/>
+    </form>
+</div>
+</body>
+<footer th:replace="/layout :: footer"></footer>
+</html>
