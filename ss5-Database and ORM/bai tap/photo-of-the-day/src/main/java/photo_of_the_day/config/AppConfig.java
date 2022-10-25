@@ -24,7 +24,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import photo_of_the_day.formatter.PhotoFormatter;
-import photo_of_the_day.service.PhotoServiceImpl;
+import photo_of_the_day.service.PhotoService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -128,6 +128,6 @@ JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new PhotoFormatter(applicationContext.getBean(PhotoServiceImpl.class)));
+        registry.addFormatter(new PhotoFormatter(applicationContext.getBean(PhotoService.class)));
     }
 }
