@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Book list</h1>
+<p><a th:href="@{/libraryCards}">Go to library card list</a></p>
+<form th:action="@{/libraryCards/search}">
+    <input type="search" name="libCardCode" placeholder="Input library card code to return">
+    <button>Search</button>
+</form>
+<br>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Quantity</th>
+        <th>Borrow</th>
+    </tr>
+    <tr th:each="book : ${bookList}">
+        <td th:text="${book.name}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.quantity}"></td>
+        <th:block th:if="${book.quantity > 0}">
+            <td><a th:href="@{/books/borrow/__${book.id}__}">Borrow</a></td>
+        </th:block>
+        <th:block th:unless="${book.quantity > 0}">
+            <td>Out of stock</td>
+        </th:block>
+
+    </tr>
+</table>
+</body>
+</html>

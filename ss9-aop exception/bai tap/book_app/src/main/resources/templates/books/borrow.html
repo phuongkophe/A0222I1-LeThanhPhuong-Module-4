@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Borrow book</title>
+</head>
+<body>
+<h1>Book information</h1>
+<a th:href="@{/books}">Back to book list</a>
+<table>
+    <tr>
+        <th>Name</th>
+        <td th:text="${libraryCard.book.name}"></td>
+    </tr>
+    <tr>
+        <th>Author</th>
+        <td th:text="${libraryCard.book.author}"></td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td th:text="${libraryCard.book.description}"></td>
+    </tr>
+    <tr>
+        <th>Quantity</th>
+        <td th:text="${libraryCard.book.quantity}"></td>
+    </tr>
+</table>
+<hr>
+<form th:action="@{/books/borrow}" th:method="post" th:object="${libraryCard}">
+    <div>
+        <lable>Library Card Code</lable>
+        <input type="text" value="*{libraryCardCode}" th:field="*{libraryCardCode}" readonly>
+        <input type="text" hidden th:field="*{book.id}">
+    </div>
+    <button type="submit">Borrow</button>
+</form>
+</body>
+</html>
