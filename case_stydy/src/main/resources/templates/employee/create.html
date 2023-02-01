@@ -1,0 +1,215 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/template::header('Create employee')}">
+</head>
+<body>
+    <div th:replace="~{template/template::pageloader}"></div>
+    <nav th:replace="~{template/template::navbar}"></nav>
+    <section th:replace="~{template/template::sidebar}"></section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Vertical Layout -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Add new Employee
+                            </h2>
+                            <h3 class="text-danger" th:if="${mess != null}" th:text="${mess}"></h3>
+                        </div>
+                        <div class="body">
+                            <form  id="form-register" th:action="@{/employee/create}" method="post" th:object="${employee}" enctype="multipart/form-data">
+                                <label hidden for="id">ID: <span style="color: red;"> *</span></label>
+                                <div hidden class="form-group">
+                                    <div class="form-line">
+                                        <input id="id" th:field="*{employeeId}" class="form-control" placeholder=" ID" tabindex="1" autofocus="autofocus" />
+                                    </div>
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('employeeId')}"
+                                       th:errors="*{employeeId}"></p>
+                                </div>
+
+                                <label for="name">Name: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input id="name" th:field="*{employeeName}" class="form-control" placeholder="Name" tabindex="2" />
+                                    </div>
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('employeeName')}"
+                                       th:errors="*{employeeName}"></p>
+                                </div>
+
+                                <label for="birthday">Birthday: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="date" id="birthday" th:field="*{employeeBirthday}" class="form-control"
+                                               placeholder="Birthday" tabindex="2"/>
+                                    </div>
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('employeeBirthday')}"
+                                       th:errors="*{employeeBirthday}"></p>
+                                </div>
+
+                                <label for="card">Id Card: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="card" th:field="*{employeeIdCard}" class="form-control" placeholder="Id card" tabindex="2" />
+                                    </div>
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('employeeIdCard')}"
+                                       th:errors="*{employeeIdCard}"></p>
+                                </div>
+
+                                <label for="phone">Salary: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="phone" th:field="*{employeeSalary}" class="form-control" placeholder="Salary" tabindex="2" />
+                                    </div>
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('employeeSalary')}"
+                                       th:errors="*{employeeSalary}"></p>
+                                </div>
+
+                                <label for="phone">Phone: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="phone" th:field="*{employeePhone}" class="form-control" placeholder="phone" tabindex="2" />
+                                    </div>
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('employeePhone')}"
+                                       th:errors="*{employeePhone}"></p>
+                                </div>
+
+                                <label for="email">Email: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="email" th:field="*{employeeEmail}" class="form-control" placeholder="email" tabindex="2" />
+                                    </div>
+
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('employeeEmail')}"
+                                       th:errors="*{employeeEmail}"></p>
+                                </div>
+
+                                <label for="address">Address: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="address" th:field="*{employeeAddress}" class="form-control" placeholder="address" tabindex="2" />
+                                    </div>
+                                </div>
+
+                                <label for="type">Position: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select id="type" th:field="*{positionId}" class="form-control" tabindex="4">
+                                            <option value="">Chọn</option>
+                                            <option th:each="position: ${positions}"
+                                                    th:value="${position.positionId}"
+                                                    th:text="${position.positionName}"
+                                                    th:selected="${position.positionId == (employee.positionId.positionId)}">
+                                        </select>
+
+                                        <p style="color: red" th:if="${#fields.hasErrors('positionId')}"
+                                           th:errors="*{positionId}"></p>
+                                    </div>
+                                </div>
+
+                                <label for="type">Education Degree: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select id="type" th:field="*{educationDegreeId}" class="form-control" tabindex="4">
+                                            <option value="">Chọn</option>
+                                            <option th:each="educatioin: ${educations}"
+                                                    th:value="${educatioin.educationDegreeId}"
+                                                    th:text="${educatioin.educationDegreeName}"
+                                                    th:selected="${educatioin.educationDegreeId == (employee.educationDegreeId.educationDegreeId)}">
+                                        </select>
+
+                                        <p style="color: red" th:if="${#fields.hasErrors('educationDegreeId')}"
+                                           th:errors="*{educationDegreeId}"></p>
+                                    </div>
+                                </div>
+
+                                <label for="type">Division: <span style="color: red;"> *</span></label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select id="type" th:field="*{divisionId}" class="form-control" tabindex="4">
+                                            <option value="">Chọn</option>
+                                            <option th:each="division: ${divisions}"
+                                                    th:value="${division.divisionId}"
+                                                    th:text="${division.divisionName}"
+                                                    th:selected="${division.divisionId == (employee.divisionId.divisionId)}">
+                                        </select>
+
+                                        <p style="color: red" th:if="${#fields.hasErrors('divisionId')}"
+                                           th:errors="*{divisionId}"></p>
+                                    </div>
+                                </div>
+
+<!--                                <label for="name">User name: <span style="color: red;"> *</span></label>-->
+<!--                                <div class="form-group">-->
+<!--                                    <div class="form-line">-->
+<!--                                        <input id="name" th:field="*{username}" class="form-control" placeholder="User name" tabindex="2" />-->
+<!--                                    </div>-->
+
+<!--                                    <p style="color: red" th:if="${#fields.hasErrors('username')}"-->
+<!--                                       th:errors="*{username}"></p>-->
+<!--                                </div>-->
+
+<!--                                <label for="Describe">Describe: <span style="color: red;"> *</span></label>-->
+<!--                                <div class="form-group">-->
+<!--                                    <div class="form-line">-->
+<!--                                        <textarea id="Describe" th:field="*{description}" class="form-control" placeholder="Description" tabindex="2" rows="3" />-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+
+<!--                                <label for="outOfDate">HSD: <span style="color: red;"> *</span></label>-->
+<!--                                <div class="form-group">-->
+<!--                                    <div class="form-line">-->
+<!--                                        <input type="date" id="outOfDate" th:field="*{outOfDate}" class="form-control" placeholder="HSD" tabindex="2" />-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+<!--                                <label for="factory">Factory: <span style="color: red;"> *</span></label>-->
+<!--                                <div class="form-group">-->
+<!--                                    <div class="form-line">-->
+<!--                                        <select th:field="*{factory}" class="form-control" tabindex="4">-->
+<!--                                            <option value=""></option>-->
+<!--                                            <option th:each="factory : ${factories}"-->
+<!--                                                    th:value="${factory.factoryCode}"-->
+<!--                                                    th:text="${factory.name}"-->
+<!--                                                    th:selected="${factory.factoryCode == (product.factory.factoryCode)}" />-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="form-group">-->
+<!--                                    <div class="form-line">-->
+<!--                                        <input type="radio" th:field="*{sex}" th:value="true" id="male"-->
+<!--                                               th:selected="*{sex}" style="margin: unset;" th:tabindex="8">-->
+<!--                                        <label th:text="Male" th:for="male"/>-->
+<!--                                        <input type="radio" th:field="*{sex}" th:value="false" id="female"-->
+<!--                                               th:selected="*{!sex}" style="margin: unset;">-->
+<!--                                        <label th:text="Female" th:for="female"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+                                <button type="submit" class="btn btn-primary btn-custom" tabindex="12"><i class="fa fa-check" aria-hidden="true"></i> Add</button>
+                                <a th:href="@{/employee/list}" class="btn btn-primary btn-custom" tabindex="13"><i class="fa fa-remove" aria-hidden="true"></i> Back</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{template/template::script}"></div>
+    <br>
+    <div th:replace="~{template/template::footer}"></div>
+</body>
+</html>

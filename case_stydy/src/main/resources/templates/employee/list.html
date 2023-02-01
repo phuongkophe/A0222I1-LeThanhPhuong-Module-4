@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/template::header('List employee')}">
+
+</head>
+<body>
+<div th:replace="~{template/template::pageloader}"></div>
+<nav th:replace="~{template/template::navbar}"></nav>
+<section th:replace="~{template/template::sidebar}"></section>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Employee list
+                        </h2>
+                        <h3 class="text-success" th:if="${mess != null}" th:text="${mess}"></h3>
+
+                        <form class="form-inline" method="get" action="/employee/list">
+                            <input th:value="${nameSearch}" name="nameSearch" class="form-control mr-sm-2" type="search"
+                                   placeholder="name"
+                                   aria-label="Search">
+                            <select name="positionSearch" class="form-control mr-sm-2" aria-label="Search">
+                                <option value="">Chọn</option>
+                                <option th:each="position: ${positions}"
+                                        th:value="${position.positionId}"
+                                        th:text="${position.positionName}"></option>
+                            </select>
+                            <select name="divisionSearch" class="form-control mr-sm-2" aria-label="Search">
+                                <option value="">Chọn</option>
+                                <option th:each="division: ${divisions}"
+                                        th:value="${division.divisionId}"
+                                        th:text="${division.divisionName}">
+                                </option>
+                            </select>
+                            <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                            </p>
+                        </form>
+
+
+                    </div>
+                    <div class="body table-responsive">
+                        <a th:href="@{/employee/create}" class="btn btn-primary btn-custom">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Add new employee
+                        </a>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Birthday</th>
+                                <th>Id card</th>
+                                <th>Salary</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Position</th>
+                                <th>Education</th>
+                                <th>Division</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="st, iterStat: ${employees}">
+                            <tr th:object="${st}">
+                                <td th:text="*{employeeId}"></td>
+                                <td th:text="*{employeeName}"></td>
+                                <td th:text="*{#dates.format(employeeBirthday, 'dd-MM-yyyy')}"></td>
+                                <td th:text="*{employeeIdCard}"></td>
+                                <td th:text="*{employeeSalary}"></td>
+                                <td th:text="*{employeePhone}"></td>
+                                <td th:text="*{employeeEmail}"></td>
+                                <td th:text="*{employeeAddress}"></td>
+                                <td th:text="*{positionId.positionName}"></td>
+                                <td th:text="*{educationDegreeId.educationDegreeName}"></td>
+                                <td th:text="*{divisionId.divisionName}"></td>
+                                <td>
+                                    <a th:href="@{/employee/view/{id}(id=*{employeeId})}">
+                                        <button class="btn btn-warning">View</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/employee/edit/{id}(id=*{employeeId})}">
+                                        <button class="btn btn-info">Edit</button>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/employee/delete/{id}(id=*{employeeId})}">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+
+                                    <!--                                    <button type="button"-->
+                                    <!--                                            th:attr="onclick=|showInfo('${st.employeeId}','${st.employeeName}')|"-->
+                                    <!--                                            class="btn btn-danger"-->
+                                    <!--                                            data-bs-toggle="modal"-->
+                                    <!--                                            data-bs-target="#deleteModal">-->
+                                    <!--                                        Delete-->
+                                    <!--                                    </button>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <!--                       **************************** Phân trang **************************-->
+
+                        <!--                        <th:block th:each="i:${#numbers.sequence(0,employees.totalPages - 1)}">-->
+                        <!--                            <span th:if="${employees.number == i}" class="page-item active" >-->
+                        <!--                                <a class="page-link" th:href="@{'/employee/list'(page=${i})} + ${condition}"-->
+                        <!--                                   th:text="${i+1}"></a>-->
+                        <!--                            </span>-->
+                        <!--                            <span th:unless="${employees.number == i}" class="page-item">-->
+                        <!--                                <a class="page-link" th:href="@{'/employee/list'(page=${i})} + ${condition}"-->
+                        <!--                                   th:text="${i+1}"></a>-->
+                        <!--                            </span>-->
+                        <!--                        </th:block>-->
+
+                        <div class="text-center">
+                            <div th:if="${employees.totalPages > 0}">
+
+                                <a th:href="@{'/employee/list'(page=${employees.number - 1},nameSearch=${nameSearch}, emailSearch = ${emailSearch},typeSearch =${typeSearch})}"
+                                   th:if="${employees.hasPrevious()}">Previous</a>
+                                <span th:text="${employees.number + 1}"></span>/<span
+                                    th:text="${employees.totalPages}"></span>
+                                <a th:href="@{'/employee/list'(page=${employees.number + 1},nameSearch=${nameSearch}, emailSearch = ${emailSearch},typeSearch =${typeSearch})}"
+                                   th:if="${employees.hasNext()}">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--<div class="modal fade" id="myModal">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <!-- ---------thêm thẻ form--------->
+        <form action="/employee/delete" method="get">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="exampleModalLabel">Xác nhận xoá !</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <input type="text" hidden id="idemployee" name="idDelete">
+                    <span>Bạn có muốn xóa employee </span>
+                    <span class="text-danger" id="nameemployee"></span><span> không?</span>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--<script th:src="@{datatables/js/jquery.dataTables.min.js}"></script>-->
+<!--<script th:src="@{datatables/js/dataTables.bootstrap4.min.js}"></script>-->
+<div th:replace="~{template/template::script}"></div>
+<div th:replace="~{template/template::footer}"></div>
+
+<script>
+    function showInfo(id, name) {
+        document.getElementById("idemployee").value = id;
+        document.getElementById("nameemployee").innerText = name;
+    }
+</script>
+</body>
+</html>

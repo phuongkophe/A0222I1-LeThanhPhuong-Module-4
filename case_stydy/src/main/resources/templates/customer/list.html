@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/template::header('List customer')}">
+
+</head>
+<body>
+<div th:replace="~{template/template::pageloader}"></div>
+<nav th:replace="~{template/template::navbar}"></nav>
+<section th:replace="~{template/template::sidebar}"></section>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Customer list
+                        </h2>
+                        <h3 class="text-success" th:if="${mess != null}" th:text="${mess}"></h3>
+
+                        <form class="form-inline" method="get" action="/customer/list">
+                            <input name="customerNameSearch" class="form-control mr-sm-2" type="search"
+                                   placeholder="name"
+                                   aria-label="Search">
+                            <select name="customerTypeId" class="form-control mr-sm-2" aria-label="Search">
+                                <!--                                <option value="">Chọn</option>-->
+                                <option th:each="customerType: ${customerTypes}"
+                                        th:value="${customerType.customerTypeId}"
+                                        th:text="${customerType.customerTypeName}"></option>
+                            </select>
+                            <input name="customerEmail" class="form-control mr-sm-2" type="search" placeholder="email"
+                                   aria-label="Search">
+                            <p style="margin-top: 10px">
+                                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                            </p>
+                        </form>
+
+
+                    </div>
+                    <div class="body table-responsive">
+                        <a th:href="@{/customer/create}" class="btn btn-primary btn-custom">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Add new customer
+                        </a>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Birthday</th>
+                                <th>Gender</th>
+                                <th>Id card</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="st, iterStat: ${customers}">
+                            <tr th:object="${st}">
+                                <td th:text="*{customerId}"></td>
+                                <td th:text="*{customerName}"></td>
+                                <td th:text="*{customerTypeId.customerTypeName}"></td>
+                                <td th:text="*{#dates.format(customerBirthday, 'dd/MM/yyyy')}"></td>
+                                <td th:text="*{customerGender ? 'Nam' : 'Nữ' }"></td>
+                                <td th:text="*{customerIdCard}"></td>
+
+                                <!--                                <td th:text="*{#dates.format(outOfDate, 'dd-MM-yyyy')}"></td>-->
+                                <td th:text="*{customerPhone}"></td>
+                                <td th:text="*{customerEmail}"></td>
+                                <td th:text="*{customerAddress}"></td>
+
+                                <!--                                        <td th:text="*{sex ? 'Nam' : 'Nữ'}"></td>-->
+                                <td>
+                                    <a th:href="@{/customer/view/{id}(id=*{customerId})}">
+                                        <button class="btn btn-warning">View</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/customer/edit/{id}(id=*{customerId})}">
+                                        <button class="btn btn-info">Edit</button>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/customer/delete/{id}(id=*{customerId})}">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+
+                                    <!--                                    <button type="button"-->
+                                    <!--                                            th:attr="onclick=|showInfo('${st.customerId}','${st.customerName}')|"-->
+                                    <!--                                            class="btn btn-danger"-->
+                                    <!--                                            data-bs-toggle="modal"-->
+                                    <!--                                            data-bs-target="#deleteModal">-->
+                                    <!--                                        Delete-->
+                                    <!--                                    </button>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <!--                       **************************** Phân trang **************************-->
+
+                        <!--                        <th:block th:each="i:${#numbers.sequence(0,customers.totalPages - 1)}">-->
+                        <!--                            <span th:if="${customers.number == i}" class="page-item active" >-->
+                        <!--                                <a class="page-link" th:href="@{'/customer/list'(page=${i})} + ${condition}"-->
+                        <!--                                   th:text="${i+1}"></a>-->
+                        <!--                            </span>-->
+                        <!--                            <span th:unless="${customers.number == i}" class="page-item">-->
+                        <!--                                <a class="page-link" th:href="@{'/customer/list'(page=${i})} + ${condition}"-->
+                        <!--                                   th:text="${i+1}"></a>-->
+                        <!--                            </span>-->
+                        <!--                        </th:block>-->
+
+
+                        <div class="text-center">
+                            <div th:if="${customers.getTotalElements() != 0}">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" th:if="${customers.hasPrevious()}"
+                                           th:href="@{'/customer/list'(page=${customers.number -1})}">
+                                            <span>Back</span>
+<!--                                            &laquo;-->
+                                        </a>
+                                    </li>
+                                    <th:block th:each="i:${#numbers.sequence(0,customers.totalPages - 1)}">
+                                        <li th:if="${customers.number == i}" class="page-item active">
+                                            <a class="page-link" th:href="@{'/customer/list'(page=${i})} + ${condition}"
+                                               th:text="${i+1}"></a>
+                                        </li>
+                                        <li th:unless="${customers.number == i}" class="page-item">
+                                            <a class="page-link" th:href="@{'/customer/list'(page=${i})} + ${condition}"
+                                               th:text="${i+1}"></a>
+                                        </li>
+                                    </th:block>
+
+                                    <li class="page-item">
+                                        <a class="page-link" th:if="${customers.hasNext()}"
+                                           th:href="@{'/customer/list'(page=${customers.number +1})}">
+                                            <span>Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--<div class="modal fade" id="myModal">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <!-- ---------thêm thẻ form--------->
+        <form action="/customer/delete" method="get">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="exampleModalLabel">Xác nhận xoá !</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <input type="text" hidden id="idCustomer" name="idDelete">
+                    <span>Bạn có muốn xóa Customer </span>
+                    <span class="text-danger" id="nameCustomer"></span><span> không?</span>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--<script th:src="@{datatables/js/jquery.dataTables.min.js}"></script>-->
+<!--<script th:src="@{datatables/js/dataTables.bootstrap4.min.js}"></script>-->
+<div th:replace="~{template/template::script}"></div>
+<div th:replace="~{template/template::footer}"></div>
+
+<script>
+    function showInfo(id, name) {
+        document.getElementById("idCustomer").value = id;
+        document.getElementById("nameCustomer").innerText = name;
+    }
+</script>
+</body>
+</html>

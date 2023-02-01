@@ -1,0 +1,115 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/template::header('Create customer')}">
+</head>
+<body>
+<div th:replace="~{template/template::pageloader}"></div>
+<nav th:replace="~{template/template::navbar}"></nav>
+<section th:replace="~{template/template::sidebar}"></section>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h3  style="color: red">
+                            Xác nhận xóa?
+                        </h3>
+
+                        <h3 class="text-danger" th:if="${mess != null}" th:text="${mess}"></h3>
+                    </div>
+                    <div class="body">
+                        <form id="form-register" th:action="@{/customer/delete}" method="get" th:object="${customer}" enctype="multipart/form-data">
+                            <input type="text" hidden name="deleteId" th:value="*{customerId}">
+                            <label for="id">ID: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+<!--                                    <input readonly id="id"  name="deleteId" th:field="*{customerId}" class="form-control" placeholder=" ID" tabindex="1" autofocus="autofocus" />-->
+                                <p th:name="deleteId" th:text="*{customerId}" class="form-control"></p>
+                                </div>
+
+                            </div>
+
+                            <label for="type">Type: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p th:text="*{customerTypeId.customerTypeName}" class="form-control"></p><!--                                        <option value=""></option>-->
+
+                                </div>
+                            </div>
+
+                            <label for="name">Name: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div  class="form-line">
+                                    <p th:text="*{customerName}" class="form-control"></p>
+                                </div>
+                            </div>
+
+                            <label for="birthday">Birthday: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p th:text="*{#dates.format(customerBirthday, 'dd/MM/yyyy')}" class="form-control"></p>
+                                </div>
+                            </div>
+
+                            <label for="gender">Gender: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div  class="form-line">
+                                    <div th:if="*{customerGender == true}">
+                                    <input   type="radio" th:field="*{customerGender}" th:value="true" id="male"
+                                           th:selected="*{customerGender}" style="margin: unset;" th:tabindex="8">
+                                    <label th:text="Male" th:for="male"/>
+                                    </div>
+
+                                    <div th:if="*{customerGender == false}">
+                                    <input   type="radio" th:field="*{customerGender}" th:value="false" id="female"
+                                           th:selected="*{!customerGender}" style="margin: unset;">
+                                    <label th:text="Female" th:for="female"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label for="card">Id Card: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p th:text="*{customerIdCard}" class="form-control"></p>
+                                </div>
+                            </div>
+
+                            <label for="phone">Phone: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p th:text="*{customerPhone}" class="form-control"></p>
+                                </div>
+                            </div>
+
+                            <label for="email">Email: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p th:text="*{customerEmail}" class="form-control"></p>
+                                </div>
+                            </div>
+
+                            <label for="address">Address: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p th:text="*{customerAddress}" class="form-control"></p>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-custom" tabindex="12"><i class="fa fa-check" aria-hidden="true"></i>Xóa</button>
+                            <a th:href="@{/customer/list}" class="btn btn-primary btn-custom" tabindex="13"><i class="fa fa-remove" aria-hidden="true"></i> Back</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{template/template::script}"></div>
+<br>
+<div th:replace="~{template/template::footer}"></div>
+</body>
+</html>

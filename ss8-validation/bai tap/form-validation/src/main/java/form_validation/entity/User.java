@@ -4,20 +4,24 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import javax.validation.constraints.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class User implements Validator {
+    @Size(min = 5, max = 45)
     private String firstName;
+    @Size(min = 5, max = 45)
     private String lastName;
 
-//    @Pattern(regexp = "^0[0-9]{9}$",message = "Phone number need to have 10 digits")
+    @Pattern(regexp = "^0[0-9]{9}$",message = "Phone number need to have 10 digits")
     private String phoneNumber;
 
-//    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",message = "Invalid email")
+    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",message = "Invalid email")
     private String email;
 
-//    @Min(18)
+    @Min(18)
     private int age;
 
     public User() {

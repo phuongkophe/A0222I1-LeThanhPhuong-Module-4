@@ -19,5 +19,6 @@
 <h1>${emailBox.pageSize}</h1>
 <h1>${emailBox.spamFilter}</h1>
 <h1>${emailBox.signature}</h1>
+<a href="/form">Back</a>
 </body>
 </html>

@@ -1,0 +1,149 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/template::header('Delete emloyee')}">
+</head>
+<body>
+<div th:replace="~{template/template::pageloader}"></div>
+<nav th:replace="~{template/template::navbar}"></nav>
+<section th:replace="~{template/template::sidebar}"></section>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h3  style="color: red">
+                            Xác nhận xóa nhân viên <span th:text=" ${employee.employeeName}" ></span> ?
+                        </h3>
+
+                        <h3 class="text-danger" th:if="${mess != null}" th:text="${mess}"></h3>
+                    </div>
+                    <div class="body">
+                        <form id="form-register" th:action="@{/employee/delete}" method="get" th:object="${employee}" enctype="multipart/form-data">
+                            <input type="text" hidden name="deleteId" th:value="*{employeeId}">
+                            <label for="id">ID: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+<!--                                    <p readonly id="id"  name="deleteId" th:text="*{employeeId}" class="form-control" placeholder=" ID" tabindex="1" autofocus="autofocus" />-->
+                                <p th:text="*{employeeId}" class="form-control"></p>
+                                </div>
+
+                            </div>
+
+                            <label for="name">Name: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p id="name" th:text="*{employeeName}" class="form-control" placeholder="Name" tabindex="2" />
+                                </div>
+
+                                <p style="color: red" th:if="${#fields.hasErrors('employeeName')}"
+                                   th:errors="*{employeeName}"></p>
+                            </div>
+
+                            <label for="birthday">Birthday: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p th:text="*{#dates.format(employeeBirthday, 'dd-MM-yyyy')}" class="form-control"></p>
+                                </div>
+
+                                <p style="color: red" th:if="${#fields.hasErrors('employeeBirthday')}"
+                                   th:errors="*{employeeBirthday}"></p>
+                            </div>
+
+                            <label for="card">Id Card: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="card" th:text="*{employeeIdCard}" class="form-control" placeholder="Id card" tabindex="2" />
+                                </div>
+
+                                <p style="color: red" th:if="${#fields.hasErrors('employeeIdCard')}"
+                                   th:errors="*{employeeIdCard}"></p>
+                            </div>
+
+                            <label for="phone">Salary: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="phone" th:text="*{employeeSalary}" class="form-control" placeholder="Salary" tabindex="2" />
+                                </div>
+
+                                <p style="color: red" th:if="${#fields.hasErrors('employeeSalary')}"
+                                   th:errors="*{employeeSalary}"></p>
+                            </div>
+
+                            <label for="phone">Phone: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="phone" th:text="*{employeePhone}" class="form-control" placeholder="phone" tabindex="2" />
+                                </div>
+
+                                <p style="color: red" th:if="${#fields.hasErrors('employeePhone')}"
+                                   th:errors="*{employeePhone}"></p>
+                            </div>
+
+                            <label for="email">Email: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="email" th:text="*{employeeEmail}" class="form-control" placeholder="email" tabindex="2" />
+                                </div>
+
+
+                                <p style="color: red" th:if="${#fields.hasErrors('employeeEmail')}"
+                                   th:errors="*{employeeEmail}"></p>
+                            </div>
+
+                            <label for="address">Address: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="address" th:text="*{employeeAddress}" class="form-control" placeholder="address" tabindex="2" />
+                                </div>
+                            </div>
+
+                            <label for="type">Position: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="address" th:text="*{positionId.positionName}" class="form-control" placeholder="address" tabindex="2" />
+
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('positionId')}"
+                                       th:errors="*{positionId}"></p>
+                                </div>
+                            </div>
+
+                            <label for="type">Education Degree: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="address" th:text="*{educationDegreeId.educationDegreeName}" class="form-control" placeholder="address" tabindex="2" />
+
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('positionId')}"
+                                       th:errors="*{positionId}"></p>
+                                </div>
+                            </div>
+
+                            <label for="type">Division: <span style="color: red;"> *</span></label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <p type="text" id="address" th:text="*{divisionId.divisionName}" class="form-control" placeholder="address" tabindex="2" />
+
+
+                                    <p style="color: red" th:if="${#fields.hasErrors('positionId')}"
+                                       th:errors="*{positionId}"></p>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-custom" tabindex="12"><i class="fa fa-check" aria-hidden="true"></i>Xóa</button>
+                            <a th:href="@{/employee/list}" class="btn btn-primary btn-custom" tabindex="13"><i class="fa fa-remove" aria-hidden="true"></i> Back</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{template/template::script}"></div>
+<br>
+<div th:replace="~{template/template::footer}"></div>
+</body>
+</html>

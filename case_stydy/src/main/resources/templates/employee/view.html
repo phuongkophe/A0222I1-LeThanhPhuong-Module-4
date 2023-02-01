@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/template::header('Employee detail')}">
+</head>
+<body>
+<div th:replace="~{template/template::pageloader}"></div>
+<nav th:replace="~{template/template::navbar}"></nav>
+<section th:replace="~{template/template::sidebar}"></section>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Employee detail
+                        </h2>
+                    </div>
+                    <div class="body table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Birthday</th>
+                                <th>Id card</th>
+                                <th>Salary</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Position</th>
+                                <th>Education</th>
+                                <th>Division</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="st, iterStat: ${employee}">
+                            <tr th:object="${st}">
+                                <td th:text="*{employeeId}"></td>
+                                <td th:text="*{employeeName}"></td>
+                                <td th:text="*{#dates.format(employeeBirthday, 'dd-MM-yyyy')}"></td>
+                                <td th:text="*{employeeIdCard}"></td>
+                                <td th:text="*{employeeSalary}"></td>
+                                <td th:text="*{employeePhone}"></td>
+                                <td th:text="*{employeeEmail}"></td>
+                                <td th:text="*{employeeAddress}"></td>
+                                <td th:text="*{positionId.positionName}"></td>
+                                <td th:text="*{educationDegreeId.educationDegreeName}"></td>
+                                <td th:text="*{divisionId.divisionName}"></td>
+                                <td>
+                                    <a th:href="@{/employee/view/{id}(id=*{employeeId})}">
+                                        <button class="btn btn-warning">View</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/employee/edit/{id}(id=*{employeeId})}">
+                                        <button class="btn btn-info">Edit</button>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/employee/delete/{id}(id=*{employeeId})}">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+
+                                    <!--                                    <button type="button"-->
+                                    <!--                                            th:attr="onclick=|showInfo('${st.employeeId}','${st.employeeName}')|"-->
+                                    <!--                                            class="btn btn-danger"-->
+                                    <!--                                            data-bs-toggle="modal"-->
+                                    <!--                                            data-bs-target="#deleteModal">-->
+                                    <!--                                        Delete-->
+                                    <!--                                    </button>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div th:replace="~{template/template::script}"></div>
+<div th:replace="~{template/template::footer}"></div>
+</body>
+</html>

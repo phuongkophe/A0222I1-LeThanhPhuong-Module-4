@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="eu">
+<head>
+  <meta charset="UTF-8">
+  <title>Question Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+          integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<p th:utext="${message}" style="color:red;"></p>
+<table class="table table-striped">
+  <tr>
+    <td>
+      <a th:href="@{/create}">
+        <button class="btn btn-success">Create new Question</button>
+      </a>
+    </td>
+    <td>
+      <form th:action="@{/}">
+        <input type="text" name="title"  placeholder="search title">
+        <input type="text" name="questionType" placeholder="search question type">
+        <button type="submit">Search</button>
+      </form>
+    </td>
+    <td>
+      <a th:href="@{/}">
+        <button>Refresh</button>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      STT.
+    </th>
+    <th>
+      Title.
+    </th>
+    <th>
+      Question Type
+    </th>
+    <th>
+      Date
+    </th>
+    <th>
+      Status
+    </th>
+    <th>
+      Action
+    </th>
+  </tr>
+  <tr th:each="item, state : ${list}">
+    <td th:utext="${item.id}" hidden></td>
+    <td th:utext="${state.count}"></td>
+    <td th:utext="${item.title}"></td>
+    <td th:utext="${item.questionType}"></td>
+    <td th:utext="${#dates.format(item.date,'dd/MM/yyyy')}"></td>
+    <td th:utext="${item.status}"></td>
+    <td th:utext="${item.title}"></td>
+    <td>
+      <button th:onclick="showInfoDelete([[${item.id}]],[[${item.title}]])" type="button"
+              class="btn btn-outline-danger"
+              data-bs-toggle="modal" data-bs-target="#delete">
+        <i class="fa-solid fa-eraser"></i>
+      </button>
+      <a th:href="@{/edit/{id}(id = ${item.id})}">
+        <button type="button">
+          <i class="fa-solid fa-highlighter"></i>
+        </button>
+      </a>
+
+    </td>
+  </tr>
+</table>
+<div>
+  <ul class="pagination justify-content-center">
+    <li class="page-item" th:each="i: ${#numbers.sequence(1,  list.totalPages)}">
+      <a class="page-link"
+         th:href="@{'/'(page=${i - 1},content=${content},title=${title})}"
+         th:text="${i}">
+      </a>
+    </li>
+  </ul>
+</div>
+<!--delete modal-->
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="/delete">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Delete this <span id="contentDelete"></span>?
+          <input type="hidden" id="deleteId" name="id">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  function showInfoDelete(id, title) {
+    console.log(title + "," + id);
+    document.getElementById("contentDelete").innerText = title;
+    document.getElementById("deleteId").value = id;
+  }
+</script>
+</body>
+</html>
